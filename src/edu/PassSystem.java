@@ -1,23 +1,29 @@
 package src.edu;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class PassSystem {
-	private LocalDateTime DayStart;
-	private LocalDateTime DayEnd;
+	private LocalTime DayStart;
+	private LocalTime DayEnd;
 
-	public LocalDateTime getDayStart() {
+	public LocalTime getDayStart() {
 		return DayStart;
 	}
 
-	public LocalDateTime getDayEnd() {
+	public LocalTime getDayEnd() {
 		return DayEnd;
 	}
 
-	private static Boolean isWorkingHours(LocalDateTime dayStart,
-										  LocalDateTime dayEnd) {
-		return (LocalDateTime.now().isAfter(dayStart) &&
-				LocalDateTime.now().isBefore(dayEnd));
+	public PassSystem(LocalTime dayStart, LocalTime dayEnd) {
+		DayStart = dayStart;
+		DayEnd = dayEnd;
+	}
+
+	private static Boolean isWorkingHours(LocalTime dayStart,
+										  LocalTime dayEnd) {
+		return (LocalTime.now().isAfter(dayStart) &&
+				LocalTime.now().isBefore(dayEnd));
 	}
 
 	private static Boolean isRightDayOfWeek(SkiPass.Types type) {
@@ -38,7 +44,7 @@ public class PassSystem {
 						!isRightDayOfWeek(skiPass.Type))
 					return (false);
 				if (skiPass.getDateTill() != null)
-					return (LocalDateTime.now().isBefore(skiPass.getDateTill()));
+					return (LocalTime.now().isBefore(skiPass.getDateTill().toLocalTime()));
 				else if (skiPass.getRides() > 0) {
 					skiPass.decRides();
 					return (true);

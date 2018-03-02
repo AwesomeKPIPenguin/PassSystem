@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class SkiPass {
-	public static Map<Types, Map> SkiPasses;
+	public static HashMap<Types, HashMap> SkiPasses;
 	public enum Types { Weekday, Weekend, Season }
 
 	static {
-		SkiPasses = new HashMap<Types, Map>(3);
+		SkiPasses = new HashMap<Types, HashMap>(3);
 		SkiPasses.put(Types.Weekday, new HashMap<UUID, SkiPass>(5000));
 		SkiPasses.put(Types.Weekend, new HashMap<UUID, SkiPass>(5000));
 		SkiPasses.put(Types.Season, new HashMap<UUID, SkiPass>(5000));
@@ -35,6 +35,10 @@ public class SkiPass {
 		return DateTill;
 	}
 
+	public int getRides() {
+		return Rides;
+	}
+
 	public void decRides() {
 		--Rides;
 	}
@@ -54,12 +58,12 @@ public class SkiPass {
 		if (days == 0)
 			DateTill = DateTill.plusHours(4);
 		while (days != 0) {
-			DateTill = DateTill.plusDays(1);
 			day = DateTill.getDayOfWeek();
 			if ((type == Types.Weekday) ?
 					(day.ordinal() > 4) : (day.ordinal() < 5))
 				++days;
 			--days;
+			DateTill = DateTill.plusDays(1);
 		}
 		SkiPasses.get(type).put(ID, this);
 	}
